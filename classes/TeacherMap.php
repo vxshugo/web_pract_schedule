@@ -34,8 +34,11 @@
         }
 
         private function update(Teacher $teacher) {
-            if ($this->db->exec("UPDATE teacher SET otdel_id = $teacher->otdel_id WHERE user_id=".$teacher->user_id) == 1) {
+            
+            if ($this->db->exec("UPDATE teacher SET otdel_id = $teacher->otdel_id WHERE user_id=".$teacher->user_id)) {
+                // print_r ($teacher);
                 return true;
+                
             }
             return false;
         }

@@ -1,5 +1,23 @@
 <?php
     class UserMap extends BaseMap {
+
+        const USER = 'user';
+        const TEACHER = 'teacher';
+        const STUDENT = 'student';
+
+        public function identity($id) {
+            if ((new TeacherMap())->findById($id)->validate()) {
+                return self::TEACHER;
+            }
+            if ((new StudentMap())->findById($id)->validate()) {
+                return self::STUDENT;
+            }
+            if ($this->findById($id)->validate()) {
+                return self::USER;
+            }
+            return null;
+        }
+
         public function auth($login, $password) {
             $login = $this->db->quote($login);
             $res = $this->db->query("SELECT user.user_id, CONCAT(user.lastname,' ', user.firstname, ' ',
@@ -46,7 +64,7 @@
                     return $this->update($user);
                 }
             }
-            return false;
+            return false; 
         }
 
         private function insert(User $user) {
@@ -72,7 +90,7 @@
             $pass = $this->db->quote($user->pass);
             $birthday = $this->db->quote($user->birthday);
             
-            if ( $this->db->exec("UPDATE user SET lastname = $lastname, firstname = $firstname, patronymic = $patronymic," . " login = $login, pass = $pass, gender_id = $user->gender_id, birthday = $birthday, role_id = $user->role_id, active = $user->active " . "WHERE user_id = ".$user->user_id) == 1) {
+            if ( $this->db->exec("UPDATE user SET lastname = $lastname, firstname = $firstname, patronymic = $patronymic, login = $login, pass = $pass, gender_id = $user->gender_id, birthday = $birthday, role_id = $user->role_id, active = $user->active WHERE user_id = ".$user->user_id) == 1) {
                 return true;
             }
             return false;

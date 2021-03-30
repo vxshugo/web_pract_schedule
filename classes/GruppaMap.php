@@ -6,7 +6,7 @@
             $res = $this->db->query("SELECT gruppa_id AS id, name AS value FROM gruppa");
             return $res->fetchAll(PDO::FETCH_ASSOC);
         }
-
+        
         public function findById($id = null) {
             if ($id) {
                 $res = $this->db->query("SELECT gruppa_id, name, special_id, date_begin, date_end "

@@ -1,10 +1,15 @@
 <?php
     require_once 'secure.php';
+    if (!Helper::can('admin') && !Helper::can('manager')) {
+        header('Location: 404.php');
+        exit();
+    }
+
     if (isset($_GET['id'])) {
         $id = Helper::clearInt($_GET['id']);
     } 
     else {
-        header('Location: 404.php');
+        header('Location: ../404.php');
     }
 
     $header = 'Профиль преподавателя';
@@ -18,7 +23,7 @@
             <section class="content-header">
                 <h1>Профиль преподавателя</h1>
                 <ol class="breadcrumb">
-                    <li><a href="index.php"><i class="fa fa-dashboard"></i> Главная</a></li>
+                    <li><a href="/index.php"><i class="fa fa-dashboard"></i> Главная</a></li>
                     <li><a href="list-teacher.php">Преподаватели</a></li>
                     <li class="active">Профиль</li>
                 </ol>

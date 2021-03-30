@@ -1,7 +1,11 @@
 <?php
     require_once 'secure.php';
+    if (!Helper::can('admin') && !Helper::can('manager')) {
+        header('Location: 404.php');
+        exit();
+    }
     
-    $size = 1;
+    $size = 5;
     if (isset($_GET['page'])) {
         $page = Helper::clearInt($_GET['page']);
     } 
